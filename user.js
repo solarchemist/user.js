@@ -304,7 +304,6 @@ user_pref("gfx.font_rendering.opentype_svg.enabled",		false);
 // https://github.com/iSECPartners/publications/raw/master/reports/Tor%20Browser%20Bundle/Tor%20Browser%20Bundle%20-%20iSEC%20Deliverable%201.3.pdf#16
 //user_pref("svg.disabled", true);
 
-
 // PREF: Disable video stats to reduce fingerprinting threat
 // https://bugzilla.mozilla.org/show_bug.cgi?id=654550
 // https://github.com/pyllyukko/user.js/issues/9#issuecomment-100468785
@@ -358,6 +357,7 @@ user_pref("network.protocol-handler.expose.about",		true);
 user_pref("network.protocol-handler.expose.chrome",		true);
 user_pref("network.protocol-handler.expose.blob",		true);
 user_pref("network.protocol-handler.expose.data",		true);
+
 
 /******************************************************************************
  * SECTION: Extensions / plugins                                                       *
@@ -937,6 +937,10 @@ user_pref("browser.newtabpage.enhanced",			false);
 user_pref("browser.newtab.preload",				false);
 user_pref("browser.newtabpage.directory.ping",			"");
 user_pref("browser.newtabpage.directory.source",		"data:text/plain,{}");
+
+// PREF: Disable awful tab cycling behaviour
+// https://winaero.com/blog/disable-ctrltab-thumbnail-previews-firefox/
+user_pref("browser.ctrlTab.recentlyUsedOrder", false);
 
 // PREF: Enable Auto Notification of Outdated Plugins (Firefox < 50)
 // https://wiki.mozilla.org/Firefox3.6/Plugin_Update_Awareness_Security_Review
