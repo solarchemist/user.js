@@ -538,7 +538,13 @@ user_pref("privacy.userContext.enabled",			true);
 // https://wiki.mozilla.org/Security/Fingerprinting
 // NOTICE: RFP breaks some keyboard shortcuts used in certain websites (see #443)
 // NOTICE: RFP changes your time zone
+// NOTE: Breaks SEB bankid QR login and other QR canvas, known issue, see:
+// https://github.com/pyllyukko/user.js/issues/420
+// https://bugzilla.mozilla.org/show_bug.cgi?id=1446472
+// FIX: also set privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts to FALSE, this makes Firefox prompt
+// and gives the user the option to allow an exception for the domain in question
 user_pref("privacy.resistFingerprinting",			true);
+user_pref("privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts", false);
 
 // PREF: Disable the built-in PDF viewer
 // https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2743
