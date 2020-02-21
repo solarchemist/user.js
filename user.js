@@ -977,7 +977,8 @@ user_pref("browser.urlbar.autoFill.typed",			false);
 // PREF: Disable CSS :visited selectors
 // https://blog.mozilla.org/security/2010/03/31/plugging-the-css-history-leak/
 // https://dbaron.org/mozilla/visited-privacy
-user_pref("layout.css.visited_links_enabled",			false);
+// I REVERTED THIS. Not seeing which links have already been visited was too detrimental to productivity.
+user_pref("layout.css.visited_links_enabled",			true);
 
 // PREF: Disable URL bar autocomplete and history/bookmarks suggestions dropdown
 // http://kb.mozillazine.org/Disabling_autocomplete_-_Firefox#Firefox_3.5
