@@ -950,6 +950,10 @@ user_pref("browser.newtab.preload",				false);
 user_pref("browser.newtabpage.directory.ping",			"");
 user_pref("browser.newtabpage.directory.source",		"data:text/plain,{}");
 
+// PREF: Disable Recent highlights in Library menu
+// https://consumingtech.com/disable-library-highlights-in-firefox-57-quantum/
+user_pref("browser.library.activity-stream.enabled",	false);
+
 // PREF: Enable Auto Notification of Outdated Plugins (Firefox < 50)
 // https://wiki.mozilla.org/Firefox3.6/Plugin_Update_Awareness_Security_Review
 // CIS Version 1.2.0 October 21st, 2011 2.1.2
