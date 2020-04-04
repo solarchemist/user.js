@@ -15,7 +15,8 @@
 // NOTICE: Disabling ServiceWorkers breaks functionality on some sites (Google Street View...)
 // Unknown security implications
 // CVE-2016-5259, CVE-2016-2812, CVE-2016-1949, CVE-2016-5287 (fixed)
-user_pref("dom.serviceWorkers.enabled",				false);
+// NOTICE-ENABLED: Google Sheets did not work otherwise.
+user_pref("dom.serviceWorkers.enabled",				true);
 
 // PREF: Disable web notifications
 // https://support.mozilla.org/en-US/questions/1140439
