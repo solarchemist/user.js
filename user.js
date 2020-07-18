@@ -876,6 +876,12 @@ user_pref("security.insecure_field_warning.contextual.enabled", true);
 // NOTE: CIS says 1, we use 2
 user_pref("browser.sessionstore.privacy_level",			2);
 
+// PREF: Warn before quitting Firefox
+// AIM: avoid accidental Firefox shut-downs when pressing Ctrl+Q (which happens a lot when using i3wm, instead of Alt+Shift+Q)
+// NOTE: Firefox has disabled plugins that achieved this, so now we are left with Firefox built-in "warn beofre quitting" popup
+// https://superuser.com/questions/1318336/how-to-disable-ctrlq-shortcut-in-firefox-on-linux/1352295#1352295
+user_pref("browser.sessionstore.warnOnQuit", true);
+
 // PREF: Delete temporary files on exit
 // https://bugzilla.mozilla.org/show_bug.cgi?id=238789
 user_pref("browser.helperApps.deleteTempFileOnExit",		true);
