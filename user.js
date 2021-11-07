@@ -4,6 +4,11 @@
  * https://github.com/pyllyukko/user.js                                       *
  ******************************************************************************/
 
+
+
+
+
+
 /******************************************************************************
  * SECTION: HTML5 / APIs / DOM                                                *
  ******************************************************************************/
@@ -203,6 +208,11 @@ user_pref("dom.maxHardwareConcurrency",				2);
 // NOTICE: WebAssembly is required for Unity web player/games
 user_pref("javascript.options.wasm",				false);
 
+
+
+
+
+
 /******************************************************************************
  * SECTION: Misc                                                              *
  ******************************************************************************/
@@ -368,6 +378,11 @@ user_pref("network.protocol-handler.expose.chrome",		true);
 user_pref("network.protocol-handler.expose.blob",		true);
 user_pref("network.protocol-handler.expose.data",		true);
 
+
+
+
+
+
 /******************************************************************************
  * SECTION: Extensions / plugins                                                       *
  ******************************************************************************/
@@ -444,6 +459,11 @@ user_pref("extensions.blocklist.url",				"https://blocklist.addons.mozilla.org/b
 // https://dxr.mozilla.org/mozilla-central/source/toolkit/mozapps/extensions/AddonManager.jsm#1248-1257
 // NOTICE: Disabling system add-on updates prevents Mozilla from "hotfixing" your browser to patch critical problems (one possible use case from the documentation)
 user_pref("extensions.systemAddon.update.enabled",		false);
+
+
+
+
+
 
 /******************************************************************************
  * SECTION: Firefox (anti-)features / components                              *                            *
@@ -647,6 +667,11 @@ user_pref("extensions.pocket.enabled",				false);
 // PREF: Disable "Recommended by Pocket" in Firefox Quantum
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories",	false);
 
+
+
+
+
+
 /******************************************************************************
  * SECTION: Automatic connections                                             *
  ******************************************************************************/
@@ -718,6 +743,11 @@ user_pref("browser.search.update",				false);
 // PREF: Disable automatic captive portal detection (Firefox >= 52.0)
 // https://support.mozilla.org/en-US/questions/1157121
 user_pref("network.captive-portal-service.enabled",		false);
+
+
+
+
+
 
 /******************************************************************************
  * SECTION: HTTP                                                              *
@@ -794,6 +824,11 @@ user_pref("network.cookie.thirdparty.sessionOnly",		true);
 //user_pref("general.appversion.override",			"5.0 (Windows)");
 //user_pref("general.platform.override",				"Win32");
 //user_pref("general.oscpu.override",				"Windows NT 6.1");
+
+
+
+
+
 
 /*******************************************************************************
  * SECTION: Caching                                                            *
@@ -943,6 +978,11 @@ user_pref("browser.bookmarks.max_backups", 0);
 // https://blog.mozilla.org/security/2021/01/26/supercookie-protections/
 user_pref("browser.chrome.site_icons",				false);
 
+
+
+
+
+
 /*******************************************************************************
  * SECTION: UI related                                                         *
  *******************************************************************************/
@@ -1049,6 +1089,11 @@ user_pref("browser.shell.checkDefaultBrowser",			false);
 // PREF: Display a notification bar when websites offer data for offline use
 // http://kb.mozillazine.org/Browser.offline-apps.notify
 user_pref("browser.offline-apps.notify",			true);
+
+
+
+
+
 
 /******************************************************************************
  * SECTION: Cryptography                                                      *
@@ -1164,6 +1209,11 @@ user_pref("browser.ssl_override_behavior",			1);
 // https://en.wikipedia.org/wiki/Server_Name_Indication#Security_implications_(ESNI)
 user_pref("network.security.esni.enabled",			true);
 
+
+
+
+
+
 /******************************************************************************
  * SECTION: Cipher suites                                                     *
  ******************************************************************************/
@@ -1259,4 +1309,4 @@ user_pref("security.ssl3.dhe_dss_camellia_256_sha",		false);
 //user_pref("security.ssl3.ecdhe_rsa_aes_256_sha",		false); // 0xc014
 //user_pref("security.ssl3.ecdhe_ecdsa_aes_256_sha",	false); // 0xc00a
 
-// ANSIBLE PLAYBOOK MANAGED REFS
+// ANSIBLE ROLE MANAGED PREFS
