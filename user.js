@@ -13,6 +13,7 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API
 // https://wiki.mozilla.org/Firefox/Push_Notifications#Service_Workers
 // NOTICE: Disabling ServiceWorkers breaks functionality on some sites (Google Street View...)
+// NOTICE: Disabling ServiceWorkers breaks Firefox Sync
 // Unknown security implications
 // CVE-2016-5259, CVE-2016-2812, CVE-2016-1949, CVE-2016-5287 (fixed)
 user_pref("dom.serviceWorkers.enabled",				false);
@@ -26,6 +27,11 @@ user_pref("dom.webnotifications.enabled",			false);
 // https://www.w3.org/TR/navigation-timing/#privacy
 user_pref("dom.enable_performance",				false);
 
+// PREF: Disable resource timing API
+// https://www.w3.org/TR/resource-timing/#privacy-security
+// NOTICE: Disabling resource timing API breaks some DDoS protection pages (Cloudflare)
+user_pref("dom.enable_resource_timing",				false);
+
 // PREF: Make sure the User Timing API does not provide a new high resolution timestamp
 // https://trac.torproject.org/projects/tor/ticket/16336
 // https://www.w3.org/TR/2013/REC-user-timing-20131212/#privacy-security
@@ -33,6 +39,7 @@ user_pref("dom.enable_user_timing",				false);
 
 // PREF: Disable Web Audio API
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1288359
+// NOTICE: Web Audio API is required for Unity web player/games
 user_pref("dom.webaudio.enabled",				false);
 
 // PREF: Disable Location-Aware Browsing (geolocation)
@@ -160,10 +167,6 @@ user_pref("dom.vr.enabled",					false);
 // PREF: Disable vibrator API
 user_pref("dom.vibrator.enabled",           false);
 
-// PREF: Disable resource timing API
-// https://www.w3.org/TR/resource-timing/#privacy-security
-user_pref("dom.enable_resource_timing",				false);
-
 // PREF: Disable Archive API (Firefox < 54)
 // https://wiki.mozilla.org/WebAPI/ArchiveAPI
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1342361
@@ -197,6 +200,7 @@ user_pref("dom.maxHardwareConcurrency",				2);
 // https://webassembly.org/
 // https://en.wikipedia.org/wiki/WebAssembly
 // https://trac.torproject.org/projects/tor/ticket/21549
+// NOTICE: WebAssembly is required for Unity web player/games
 user_pref("javascript.options.wasm",				false);
 
 /******************************************************************************
@@ -220,6 +224,9 @@ user_pref("intl.accept_languages",				"en-US, en");
 // PREF: Don't use OS values to determine locale, force using Firefox locale setting
 // http://kb.mozillazine.org/Intl.locale.matchOS
 user_pref("intl.locale.matchOS",				false);
+
+// Use LANG environment variable to choose locale (disabled)
+//pref("intl.locale.requested", "");
 
 // PREF: Don't use Mozilla-provided location-specific search engines
 user_pref("browser.search.geoSpecificDefaults",			false);
@@ -318,7 +325,8 @@ user_pref("media.video_stats.enabled",				false);
 user_pref("general.buildID.override",				"20100101");
 user_pref("browser.startup.homepage_override.buildID",		"20100101");
 
-// PREF: Prevent font fingerprinting
+// PREF: Don't use document specified fonts to prevent installed font enumeration (fingerprinting)
+// https://github.com/pyllyukko/user.js/issues/395
 // https://browserleaks.com/fonts
 // https://github.com/pyllyukko/user.js/issues/120
 // Well, my own blog looks awful using this setting. REVERTED.
@@ -398,10 +406,6 @@ user_pref("dom.ipc.plugins.reportCrashURL",			false);
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1237198
 // https://github.com/mozilla-services/shavar-plugin-blocklist
 user_pref("browser.safebrowsing.blockedURIs.enabled", true);
-
-// PREF: Disable Shumway (Mozilla Flash renderer)
-// https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Shumway
-user_pref("shumway.disabled", true);
 
 // PREF: Disable Gnome Shell Integration NPAPI plugin
 user_pref("plugin.state.libgnome-shell-browser-plugin",		0);
@@ -541,10 +545,29 @@ user_pref("privacy.userContext.enabled",			true);
 // NOTE: Breaks SEB bankid QR login and other QR canvas, known issue, see:
 // https://github.com/pyllyukko/user.js/issues/420
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1446472
-// FIX: also set privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts to FALSE, this makes Firefox prompt
-// and gives the user the option to allow an exception for the domain in question
+// Fix to allow QR code auth: set privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts to FALSE, 
+// this makes Firefox prompt and gives the user the option to allow an exception for the domain in question
+// NOTICE: RFP breaks some DDoS protection pages (Cloudflare)
 user_pref("privacy.resistFingerprinting",			true);
 user_pref("privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts", false);
+
+// PREF: disable mozAddonManager Web API [FF57+]
+// https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330
+// https://bugzilla.mozilla.org/buglist.cgi?bug_id=1406795
+// https://bugzilla.mozilla.org/buglist.cgi?bug_id=1415644
+// https://bugzilla.mozilla.org/buglist.cgi?bug_id=1453988
+// https://trac.torproject.org/projects/tor/ticket/26114
+user_pref("privacy.resistFingerprinting.block_mozAddonManager", true);
+user_pref("extensions.webextensions.restrictedDomains", "");
+
+// PREF: enable RFP letterboxing / resizing of inner window [FF67+] (disabled)
+// https://bugzilla.mozilla.org/1407366
+//user_pref("privacy.resistFingerprinting.letterboxing", true);
+//user_pref("privacy.resistFingerprinting.letterboxing.dimensions", "800x600, 1000x1000, 1600x900");
+
+// PREF: disable showing about:blank/maximized window as soon as possible during startup [FF60+]
+// https://bugzilla.mozilla.org/1448423
+user_pref("browser.startup.blankWindow", false);
 
 // PREF: Disable the built-in PDF viewer
 // https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2743
@@ -562,10 +585,19 @@ user_pref("datareporting.policy.dataSubmissionEnabled",		false);
 // "Allow Firefox to make personalized extension recommendations"
 user_pref("browser.discovery.enabled",				false);
 
-// PREF: Disable Heartbeat  (Mozilla user rating telemetry)
+// PREF: Disable Shield/Heartbeat/Normandy (Mozilla user rating telemetry)
 // https://wiki.mozilla.org/Advocacy/heartbeat
 // https://trac.torproject.org/projects/tor/ticket/19047
-user_pref("browser.selfsupport.url",				"");
+// https://trac.torproject.org/projects/tor/ticket/18738
+// https://wiki.mozilla.org/Firefox/Shield
+// https://github.com/mozilla/normandy
+// https://support.mozilla.org/en-US/kb/shield
+// https://bugzilla.mozilla.org/show_bug.cgi?id=1370801
+user_pref("app.normandy.enabled", false);
+user_pref("app.normandy.api_url", "");
+user_pref("extensions.shield-recipe-client.enabled",		false);
+user_pref("app.shield.optoutstudies.enabled",			false);
+
 
 // PREF: Disable Firefox Hello (disabled) (Firefox < 49)
 // https://wiki.mozilla.org/Loop
@@ -612,12 +644,6 @@ user_pref("browser.safebrowsing.downloads.remote.enabled",	false);
 user_pref("browser.pocket.enabled",				false);
 user_pref("extensions.pocket.enabled",				false);
 
-// PREF: Disable SHIELD
-// https://support.mozilla.org/en-US/kb/shield
-// https://bugzilla.mozilla.org/show_bug.cgi?id=1370801
-user_pref("extensions.shield-recipe-client.enabled",		false);
-user_pref("app.shield.optoutstudies.enabled",			false);
-
 // PREF: Disable "Recommended by Pocket" in Firefox Quantum
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories",	false);
 
@@ -658,8 +684,12 @@ user_pref("browser.search.suggest.enabled",			false);
 // PREF: Disable "Show search suggestions in location bar results"
 user_pref("browser.urlbar.suggest.searches",			false);
 // PREF: When using the location bar, don't suggest URLs from browsing history
-// Actually, I rely on this feature. REVERTED.
+// Actually, I rely on this feature. Revert to TRUE.
 user_pref("browser.urlbar.suggest.history",			true);
+// PREF: Disable Firefox Suggest
+// https://www.ghacks.net/2021/09/09/how-to-disable-firefox-suggest/
+// https://support.mozilla.org/en-US/kb/navigate-web-faster-firefox-suggest
+user_pref("browser.urlbar.groupLabels.enabled", false); // Firefox >= 93
 
 // PREF: Disable SSDP
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1111967
@@ -721,20 +751,22 @@ user_pref("security.sri.enable",				true);
 // NOTICE: Do No Track must be enabled manually
 //user_pref("privacy.donottrackheader.enabled",		true);
 
-// PREF: Send a referer header with the target URI as the source
+// PREF: Send a referer header with the target URI as the source (disabled)
 // https://bugzilla.mozilla.org/show_bug.cgi?id=822869
 // https://github.com/pyllyukko/user.js/issues/227
-// NOTICE: Spoofing referers breaks functionality on websites relying on authentic referer headers
-// NOTICE: Spoofing referers breaks visualisation of 3rd-party sites on the Lightbeam addon
-// NOTICE: Spoofing referers disables CSRF protection on some login pages not implementing origin-header/cookie+token based CSRF protection
+// NOTICE-DISABLED: Spoofing referers breaks functionality on websites relying on authentic referer headers
+// NOTICE-DISABLED: Spoofing referers breaks visualisation of 3rd-party sites on the Lightbeam addon
+// NOTICE-DISABLED: Spoofing referers disables CSRF protection on some login pages not implementing origin-header/cookie+token based CSRF protection
 // TODO: https://github.com/pyllyukko/user.js/issues/94, commented-out XOriginPolicy/XOriginTrimmingPolicy = 2 prefs
 // I added a comment to the above issue: https://github.com/pyllyukko/user.js/issues/94#issuecomment-600672820
 // because it seems Wallabag breaks when spoofSource is TRUE.
-user_pref("network.http.referer.spoofSource",			true);
+//user_pref("network.http.referer.spoofSource",			true);
 
-// PREF: Don't send referer headers when following links across different domains (disabled)
+// PREF: Don't send referer headers when following links across different domains
 // https://github.com/pyllyukko/user.js/issues/227
-// user_pref("network.http.referer.XOriginPolicy",		2);
+// https://github.com/pyllyukko/user.js/issues/328
+// https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/
+user_pref("network.http.referer.XOriginPolicy",		2);
 
 // PREF: Accept Only 1st Party Cookies
 // http://kb.mozillazine.org/Network.cookie.cookieBehavior#1
@@ -831,7 +863,7 @@ user_pref("privacy.cpd.sessions",				true);
 // CIS Version 1.2.0 October 21st, 2011 2.5.5
 // user_pref("browser.download.manager.retention",			0);
 
-// PREF: Disable password manager
+// PREF: Disable password manager (use an external password manager!)
 // CIS Version 1.2.0 October 21st, 2011 2.5.2
 // user_pref("signon.rememberSignons",				false);
 
@@ -900,6 +932,17 @@ user_pref("browser.shell.shortcutFavicons",					false);
 // http://kb.mozillazine.org/Browser.bookmarks.max_backups
 user_pref("browser.bookmarks.max_backups", 0);
 
+// PREF: Export bookmarks to HTML automatically when closing Firefox (disabled)
+// https://support.mozilla.org/en-US/questions/1176242
+//user_pref("browser.bookmarks.autoExportHTML", 				true);
+//user_pref("browser.bookmarks.file",	'/path/to/bookmarks-export.html');
+
+// PREF: Disable downloading of favicons in response to favicon fingerprinting techniques
+// https://github.com/jonasstrehle/supercookie
+// http://kb.mozillazine.org/Browser.chrome.site_icons
+// https://blog.mozilla.org/security/2021/01/26/supercookie-protections/
+user_pref("browser.chrome.site_icons",				false);
+
 /*******************************************************************************
  * SECTION: UI related                                                         *
  *******************************************************************************/
@@ -915,6 +958,7 @@ user_pref("security.insecure_password.ui.enabled",		true);
 
 // PREF: Disable "Are you sure you want to leave this page?" popups on page close
 // https://support.mozilla.org/en-US/questions/1043508
+// NOTICE: disabling "beforeunload" events may lead to losing data entered in web forms
 // Does not prevent JS leaks of the page close event.
 // https://developer.mozilla.org/en-US/docs/Web/Events/beforeunload
 //user_pref("dom.disable_beforeunload",    true);
@@ -1010,6 +1054,11 @@ user_pref("browser.offline-apps.notify",			true);
  * SECTION: Cryptography                                                      *
  ******************************************************************************/
 
+// PREF: Enable HTTPS-Only Mode
+// https://blog.mozilla.org/security/2020/11/17/firefox-83-introduces-https-only-mode/
+// https://www.feistyduck.com/bulletproof-tls-newsletter/issue_71_firefox_introduces_https_only_mode
+user_pref("dom.security.https_only_mode",			true);
+
 // PREF: Enable HSTS preload list (pre-set HSTS sites list provided by Mozilla)
 // https://blog.mozilla.org/security/2012/11/01/preloading-hsts/
 // https://wiki.mozilla.org/Privacy/Features/HSTS_Preload_List
@@ -1060,19 +1109,19 @@ user_pref("security.OCSP.require",				true);
 // https://bugzilla.mozilla.org/show_bug.cgi?id=967977
 user_pref("security.ssl.disable_session_identifiers",		true);
 
-// PREF: Only allow TLS 1.[0-3]
+// PREF: Only allow TLS 1.[2-3]
 // http://kb.mozillazine.org/Security.tls.version.*
 // 1 = TLS 1.0 is the minimum required / maximum supported encryption protocol. (This is the current default for the maximum supported version.)
 // 2 = TLS 1.1 is the minimum required / maximum supported encryption protocol.
 // 3 = TLS 1.2 is the minimum required / maximum supported encryption protocol.
 // 4 = TLS 1.3 is the minimum required / maximum supported encryption protocol.
-user_pref("security.tls.version.min",				1);
+user_pref("security.tls.version.min",				3);
 user_pref("security.tls.version.max",				4);
 
 // PREF: Disable insecure TLS version fallback
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1084025
 // https://github.com/pyllyukko/user.js/pull/206#issuecomment-280229645
-user_pref("security.tls.version.fallback-limit",		3);
+user_pref("security.tls.version.fallback-limit",		4);
 
 // PREF: Enforce Public Key Pinning
 // https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning
@@ -1108,6 +1157,12 @@ user_pref("security.ssl.errorReporting.automatic",		false);
 // http://kb.mozillazine.org/Browser.ssl_override_behavior
 // https://github.com/pyllyukko/user.js/issues/210
 user_pref("browser.ssl_override_behavior",			1);
+
+// PREF: Encrypted SNI (when TRR is enabled)
+// https://www.cloudflare.com/ssl/encrypted-sni/
+// https://wiki.mozilla.org/Trusted_Recursive_Resolver#ESNI
+// https://en.wikipedia.org/wiki/Server_Name_Indication#Security_implications_(ESNI)
+user_pref("network.security.esni.enabled",			true);
 
 /******************************************************************************
  * SECTION: Cipher suites                                                     *
@@ -1173,10 +1228,6 @@ user_pref("security.ssl3.ecdh_ecdsa_aes_256_sha",		false);
 // PREF: Disable 256 bits ciphers without PFS
 user_pref("security.ssl3.rsa_camellia_256_sha",			false);
 
-// PREF: Enable ciphers with ECDHE and key size > 128bits
-user_pref("security.ssl3.ecdhe_rsa_aes_256_sha",		true); // 0xc014
-user_pref("security.ssl3.ecdhe_ecdsa_aes_256_sha",		true); // 0xc00a
-
 // PREF: Enable GCM ciphers (TLSv1.2 only)
 // https://en.wikipedia.org/wiki/Galois/Counter_Mode
 user_pref("security.ssl3.ecdhe_ecdsa_aes_128_gcm_sha256",	true); // 0xc02b
@@ -1202,8 +1253,10 @@ user_pref("security.ssl3.dhe_dss_aes_256_sha",			false);
 user_pref("security.ssl3.dhe_dss_camellia_128_sha",		false);
 user_pref("security.ssl3.dhe_dss_camellia_256_sha",		false);
 
-// PREF: Fallbacks due compatibility reasons
-user_pref("security.ssl3.rsa_aes_256_sha",			true); // 0x35
-user_pref("security.ssl3.rsa_aes_128_sha",			true); // 0x2f
+// PREF: Ciphers with CBC & SHA-1 (disabled)
+//user_pref("security.ssl3.rsa_aes_256_sha",			false); // 0x35
+//user_pref("security.ssl3.rsa_aes_128_sha",			false); // 0x2f
+//user_pref("security.ssl3.ecdhe_rsa_aes_256_sha",		false); // 0xc014
+//user_pref("security.ssl3.ecdhe_ecdsa_aes_256_sha",	false); // 0xc00a
 
 // ANSIBLE PLAYBOOK MANAGED REFS
