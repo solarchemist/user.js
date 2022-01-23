@@ -117,7 +117,7 @@ user_pref("beacon.enabled",					false);
 // PREF: Disable clipboard event detection (onCut/onCopy/onPaste) via Javascript
 // NOTICE: Disabling clipboard events breaks Ctrl+C/X/V copy/cut/paste functionaility in JS-based web applications (Google Docs...)
 // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/Preference_reference/dom.event.clipboardevents.enabled
-// This setting likely breaks copy-paste in Google Docs and similar 
+// This setting likely breaks copy-paste in Google Docs and similar
 // user_pref("dom.event.clipboardevents.enabled",			false);
 
 // PREF: Disable "copy to clipboard" functionality via Javascript (Firefox >= 41)
@@ -287,7 +287,7 @@ user_pref("security.mixed_content.block_active_content",	true);
 
 // PREF: Disable JAR from opening Unsafe File Types
 // http://kb.mozillazine.org/Network.jar.open-unsafe-types
-// CIS Mozilla Firefox 24 ESR v1.0.0 - 3.7 
+// CIS Mozilla Firefox 24 ESR v1.0.0 - 3.7
 user_pref("network.jar.open-unsafe-types",			false);
 
 // CIS 2.7.4 Disable Scripting of Plugins by JavaScript
@@ -301,7 +301,7 @@ user_pref("security.fileuri.strict_origin_policy",		true);
 
 // PREF: Disable Displaying Javascript in History URLs
 // http://kb.mozillazine.org/Browser.urlbar.filter.javascript
-// CIS 2.3.6 
+// CIS 2.3.6
 user_pref("browser.urlbar.filter.javascript",			true);
 
 // PREF: Disable asm.js
@@ -560,12 +560,13 @@ user_pref("privacy.userContext.enabled",			true);
 // https://wiki.mozilla.org/Security/Tor_Uplift/Tracking
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1333933
 // https://wiki.mozilla.org/Security/Fingerprinting
+// https://www.bitestring.com/posts/2023-03-19-web-fingerprinting-is-worse-than-I-thought.html
 // NOTICE: RFP breaks some keyboard shortcuts used in certain websites (see #443)
 // NOTICE: RFP changes your time zone
 // NOTE: Breaks SEB bankid QR login and other QR canvas, known issue, see:
 // https://github.com/pyllyukko/user.js/issues/420
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1446472
-// Fix to allow QR code auth: set privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts to FALSE, 
+// Fix to allow QR code auth: set privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts to FALSE,
 // this makes Firefox prompt and gives the user the option to allow an exception for the domain in question
 // NOTICE: RFP breaks some DDoS protection pages (Cloudflare)
 user_pref("privacy.resistFingerprinting",			true);
@@ -1102,7 +1103,8 @@ user_pref("browser.offline-apps.notify",			true);
 // PREF: Enable HTTPS-Only Mode
 // https://blog.mozilla.org/security/2020/11/17/firefox-83-introduces-https-only-mode/
 // https://www.feistyduck.com/bulletproof-tls-newsletter/issue_71_firefox_introduces_https_only_mode
-user_pref("dom.security.https_only_mode",			true);
+// I'm going to disable this. It breaks too many of my redirects. Plus, not every website *needs* to be HTTPS.
+user_pref("dom.security.https_only_mode",			false);
 
 // PREF: Enable HSTS preload list (pre-set HSTS sites list provided by Mozilla)
 // https://blog.mozilla.org/security/2012/11/01/preloading-hsts/
