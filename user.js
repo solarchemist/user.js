@@ -217,6 +217,11 @@ user_pref("javascript.options.wasm",				false);
  * SECTION: Misc                                                              *
  ******************************************************************************/
 
+// PREF: prevent websites from hijacking keyboard shortcuts (e.g., preventing Ctrl+C)
+// https://mastodon.publicinterest.town/@krusynth/112609534490992460
+// Is zero by default
+user_pref("permissions.default.shortcuts", 2)
+
 // PREF: Disable face detection
 user_pref("camera.control.face_detection.enabled",		false);
 
