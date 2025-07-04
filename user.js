@@ -30,6 +30,7 @@ user_pref("dom.webnotifications.enabled",			false);
 // PREF: Disable DOM timing API
 // https://wiki.mozilla.org/Security/Reviews/Firefox/NavigationTimingAPI
 // https://www.w3.org/TR/navigation-timing/#privacy
+// NOTICE: Disabling DOM timing API breaks item pages in AliExpress (https://github.com/pyllyukko/user.js/issues/561)
 user_pref("dom.enable_performance",				false);
 
 // PREF: Disable resource timing API
@@ -115,16 +116,16 @@ user_pref("dom.telephony.enabled",				false);
 user_pref("beacon.enabled",					false);
 
 // PREF: Disable clipboard event detection (onCut/onCopy/onPaste) via Javascript
+// https://web.archive.org/web/20210416195937/https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/Preference_reference/dom.event.clipboardevents.enabled
+// https://github.com/pyllyukko/user.js/issues/287
 // NOTICE: Disabling clipboard events breaks Ctrl+C/X/V copy/cut/paste functionaility in JS-based web applications (Google Docs...)
-// https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/Preference_reference/dom.event.clipboardevents.enabled
-// This setting likely breaks copy-paste in Google Docs and similar
-// user_pref("dom.event.clipboardevents.enabled",			false);
+user_pref("dom.event.clipboardevents.enabled",			false);
 
 // PREF: Disable "copy to clipboard" functionality via Javascript (Firefox >= 41)
-// NOTICE: Disabling clipboard operations will break legitimate JS-based "copy to clipboard" functionality
 // https://hg.mozilla.org/mozilla-central/rev/2f9f8ea4b9c3
-// This setting likely breaks copy-paste in Google Docs and similar
-// user_pref("dom.allow_cut_copy", false);
+// https://github.com/pyllyukko/user.js/issues/287
+// NOTICE: Disabling clipboard operations will break legitimate JS-based "copy to clipboard" functionality
+user_pref("dom.allow_cut_copy", false);
 
 // PREF: Disable speech recognition
 // https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html
@@ -180,6 +181,7 @@ user_pref("dom.archivereader.enabled",				false);
 // PREF: Disable webGL
 // https://en.wikipedia.org/wiki/WebGL
 // https://www.contextis.com/resources/blog/webgl-new-dimension-browser-exploitation/
+// NOTICE: Disabling WebGL breaks WebGL-based websites/applications (windy, meteoblue...)
 user_pref("webgl.disabled",					true);
 // PREF: When webGL is enabled, use the minimum capability mode
 user_pref("webgl.min_capability_mode",				true);
@@ -264,6 +266,10 @@ user_pref("keyword.enabled",					true);
 // https://bugzilla.mozilla.org/show_bug.cgi?id=665580
 user_pref("browser.urlbar.trimURLs",				false);
 
+// PREF: Disable preloading of autocomplete URLs.
+// https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
+user_pref("browser.urlbar.speculativeConnect.enabled", false);
+
 // PREF: Don't try to guess domain names when entering an invalid domain name in URL bar
 // http://www-archive.mozilla.org/docs/end-user/domain-guessing.html
 user_pref("browser.fixup.alternate.enabled",			false);
@@ -326,7 +332,6 @@ user_pref("gfx.font_rendering.opentype_svg.enabled",		false);
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1216893
 // https://github.com/iSECPartners/publications/raw/master/reports/Tor%20Browser%20Bundle/Tor%20Browser%20Bundle%20-%20iSEC%20Deliverable%201.3.pdf#16
 //user_pref("svg.disabled", true);
-
 
 // PREF: Disable video stats to reduce fingerprinting threat
 // https://bugzilla.mozilla.org/show_bug.cgi?id=654550
@@ -619,6 +624,7 @@ user_pref("browser.discovery.enabled",				false);
 // https://github.com/mozilla/normandy
 // https://support.mozilla.org/en-US/kb/shield
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1370801
+// https://wiki.mozilla.org/Firefox/Normandy/PreferenceRollout
 user_pref("app.normandy.enabled", false);
 user_pref("app.normandy.api_url", "");
 user_pref("extensions.shield-recipe-client.enabled",		false);
@@ -673,10 +679,11 @@ user_pref("extensions.pocket.enabled",				false);
 // PREF: Disable "Recommended by Pocket" in Firefox Quantum
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories",	false);
 
-
-
-
-
+// PREF: Enable Global Privacy Control (GPC) (Firefox >= 120)
+// https://support.mozilla.org/1/firefox/126.0/Linux/en-US/global-privacy-control
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-GPC
+// https://globalprivacycontrol.org/
+user_pref("privacy.globalprivacycontrol.enabled",		true);
 
 /******************************************************************************
  * SECTION: Automatic connections                                             *
@@ -750,10 +757,10 @@ user_pref("browser.search.update",				false);
 // https://support.mozilla.org/en-US/questions/1157121
 user_pref("network.captive-portal-service.enabled",		false);
 
-
-
-
-
+// PREF: Disable (parts of?) "TopSites"
+user_pref("browser.topsites.contile.enabled",				false);
+user_pref("browser.newtabpage.activity-stream.feeds.topsites",		false);
+user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites",	false);
 
 /******************************************************************************
  * SECTION: HTTP                                                              *
@@ -807,7 +814,17 @@ user_pref("network.http.referer.spoofSource",			false);
 // https://github.com/pyllyukko/user.js/issues/328
 // https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox
 // https://github.com/pyllyukko/user.js/issues/94#issuecomment-255624711
+// https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
+// NOTICE: Blocking referers across same eTLD sites breaks some login flows relying on them, consider lowering this pref to 1
 user_pref("network.http.referer.XOriginPolicy",		2);
+
+// PREF: Trim HTTP referer headers to only send the scheme, host, and port
+// https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
+user_pref("network.http.referer.trimmingPolicy",	2);
+
+// PREF: When sending Referer across domains, only send scheme, host, and port in the Referer header
+// https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
+user_pref("network.http.referer.XOriginTrimmingPolicy",	2);
 
 // PREF: Accept Only 1st Party Cookies
 // http://kb.mozillazine.org/Network.cookie.cookieBehavior#1
@@ -1053,9 +1070,12 @@ user_pref("browser.newtab.preload",				false);
 user_pref("browser.newtabpage.directory.ping",			"");
 user_pref("browser.newtabpage.directory.source",		"data:text/plain,{}");
 
-// PREF: Disable Recent highlights in Library menu
-// https://consumingtech.com/disable-library-highlights-in-firefox-57-quantum/
-user_pref("browser.library.activity-stream.enabled",	false);
+// PREF: Disable Mozilla VPN ads on the about:protections page
+// https://support.mozilla.org/en-US/kb/what-mozilla-vpn-and-how-does-it-work
+// https://en.wikipedia.org/wiki/Mozilla_VPN
+// https://blog.mozilla.org/security/2021/08/31/mozilla-vpn-security-audit/
+// https://www.mozilla.org/en-US/security/advisories/mfsa2021-31/
+user_pref("browser.vpn_promo.enabled",			false);
 
 // PREF: Enable Auto Notification of Outdated Plugins (Firefox < 50)
 // https://wiki.mozilla.org/Firefox3.6/Plugin_Update_Awareness_Security_Review
@@ -1151,12 +1171,13 @@ user_pref("security.ssl.enable_ocsp_stapling",			true);
 // NOTICE: Firefox falls back on plain OCSP when must-staple is not configured on the host certificate
 user_pref("security.ssl.enable_ocsp_must_staple",		true);
 
-// PREF: Require a valid OCSP response for OCSP enabled certificates
+// PREF: Require a valid OCSP response for OCSP enabled certificates (disabled)
 // https://groups.google.com/forum/#!topic/mozilla.dev.security/n1G-N2-HTVA
+// https://www.feistyduck.com/newsletter/issue_121_the_slow_death_of_ocsp
 // Disabling this will make OCSP bypassable by MitM attacks suppressing OCSP responses
 // NOTICE: `security.OCSP.require` will make the connection fail when the OCSP responder is unavailable
 // NOTICE: `security.OCSP.require` is known to break browsing on some [captive portals](https://en.wikipedia.org/wiki/Captive_portal)
-user_pref("security.OCSP.require",				true);
+//user_pref("security.OCSP.require",				true);
 
 // PREF: Disable TLS Session Tickets
 // https://www.blackhat.com/us-13/briefings.html#NextGen
@@ -1221,10 +1242,11 @@ user_pref("browser.ssl_override_behavior",			1);
 // https://en.wikipedia.org/wiki/Server_Name_Indication#Security_implications_(ESNI)
 user_pref("network.security.esni.enabled",			true);
 
-
-
-
-
+// PREF: Disable the Enterprise Roots preference
+// https://support.mozilla.org/en-US/kb/how-disable-enterprise-roots-preference
+// https://github.com/pyllyukko/user.js/issues/560
+user_pref("security.certerrors.mitm.auto_enable_enterprise_roots",	false);
+user_pref("security.enterprise_roots.enabled",				false);
 
 /******************************************************************************
  * SECTION: Cipher suites                                                     *
@@ -1319,6 +1341,10 @@ user_pref("security.ssl3.dhe_dss_camellia_256_sha",		false);
 //user_pref("security.ssl3.rsa_aes_256_sha",			false); // 0x35
 //user_pref("security.ssl3.rsa_aes_128_sha",			false); // 0x2f
 //user_pref("security.ssl3.ecdhe_rsa_aes_256_sha",		false); // 0xc014
-//user_pref("security.ssl3.ecdhe_ecdsa_aes_256_sha",	false); // 0xc00a
+//user_pref("security.ssl3.ecdhe_ecdsa_aes_256_sha",		false); // 0xc00a
 
-// ANSIBLE ROLE MANAGED PREFS
+// PREF: Enable X25519Kyber768Draft00 (post-quantum key exchange) [FF Nightly 2024-01-18+]
+// https://datatracker.ietf.org/doc/draft-tls-westerbaan-xyber768d00/
+// https://twitter.com/bwesterb/status/1748017372764475519
+// https://pq.cloudflareresearch.com/
+user_pref("security.tls.enable_kyber",				true);
