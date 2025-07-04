@@ -796,12 +796,17 @@ user_pref("security.sri.enable",				true);
 // TODO: https://github.com/pyllyukko/user.js/issues/94, commented-out XOriginPolicy/XOriginTrimmingPolicy = 2 prefs
 // I added a comment to the above issue: https://github.com/pyllyukko/user.js/issues/94#issuecomment-600672820
 // because it seems Wallabag breaks when spoofSource is TRUE.
-//user_pref("network.http.referer.spoofSource",			true);
+// Lots of sites break with spoofSource = TRUE:
+// https://github.com/pyllyukko/user.js/issues/94#issuecomment-255624711
+// I need to explicitly reset to FALSE due to rarely installing Firefox afresh
+// (my Ansible play transfers existing profile to new workstations)
+user_pref("network.http.referer.spoofSource",			false);
 
 // PREF: Don't send referer headers when following links across different domains
 // https://github.com/pyllyukko/user.js/issues/227
 // https://github.com/pyllyukko/user.js/issues/328
-// https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/
+// https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox
+// https://github.com/pyllyukko/user.js/issues/94#issuecomment-255624711
 user_pref("network.http.referer.XOriginPolicy",		2);
 
 // PREF: Accept Only 1st Party Cookies
