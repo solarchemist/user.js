@@ -481,7 +481,9 @@ user_pref("extensions.systemAddon.update.enabled",		false);
 
 // PREF: Disable Extension recommendations (Firefox >= 65)
 // https://support.mozilla.org/en-US/kb/extension-recommendations
+// https://brokkr.net/2025/08/10/firefox-aboutconfig-tricks-3-dont-recommend-extensions/
 user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr",	false);
+user_pref("extensions.htmlaboutaddons.recommendations.enabled",		false);
 
 // PREF: Disable add-on and theme recommendations
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
@@ -523,6 +525,10 @@ user_pref("toolkit.telemetry.archive.enabled",			false);
 user_pref("experiments.supported",				false);
 user_pref("experiments.enabled",				false);
 user_pref("experiments.manifest.uri",				"");
+
+// PREF: Disable daily usage ping
+// https://support.mozilla.org/1/firefox/140.2.0/Linux/en-US/usage-ping-settings
+user_pref("datareporting.usage.uploadEnabled",			false);
 
 // PREF: Disallow Necko to do A/B testing
 // https://trac.torproject.org/projects/tor/ticket/13170
@@ -685,6 +691,9 @@ user_pref("browser.newtabpage.activity-stream.feeds.section.topstories",	false);
 // https://globalprivacycontrol.org/
 user_pref("privacy.globalprivacycontrol.enabled",		true);
 
+// PREF: Hide weather on New Tab
+user_pref("browser.newtabpage.activity-stream.showWeather",	false);
+
 /******************************************************************************
  * SECTION: Automatic connections                                             *
  ******************************************************************************/
@@ -755,7 +764,9 @@ user_pref("browser.search.update",				false);
 
 // PREF: Disable automatic captive portal detection (Firefox >= 52.0)
 // https://support.mozilla.org/en-US/questions/1157121
+// https://support.mozilla.org/en-US/kb/how-stop-firefox-making-automatic-connections#w_network-detection
 user_pref("network.captive-portal-service.enabled",		false);
+user_pref("network.connectivity-service.enabled",		false);
 
 // PREF: Disable (parts of?) "TopSites"
 user_pref("browser.topsites.contile.enabled",				false);
@@ -1195,6 +1206,7 @@ user_pref("security.ssl.disable_session_identifiers",		true);
 // 4 = TLS 1.3 is the minimum required / maximum supported encryption protocol.
 user_pref("security.tls.version.min",				3);
 user_pref("security.tls.version.max",				4);
+user_pref("security.tls.version.enable-deprecated",		false);
 
 // PREF: Disable insecure TLS version fallback
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1084025
@@ -1217,11 +1229,11 @@ user_pref("security.pki.sha1_enforcement_level",		1);
 // https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2009-3555
 user_pref("security.ssl.treat_unsafe_negotiation_as_broken",	true);
 
-// PREF: Disallow connection to servers not supporting safe renegotiation (disabled)
+// PREF: Disallow connection to servers not supporting safe renegotiation
 // https://wiki.mozilla.org/Security:Renegotiation#security.ssl.require_safe_negotiation
 // https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2009-3555
-// TODO: `security.ssl.require_safe_negotiation` is more secure but makes browsing next to impossible (2012-2014-... - `ssl_error_unsafe_negotiation` errors), so is left disabled
-//user_pref("security.ssl.require_safe_negotiation",		true);
+// https://github.com/pyllyukko/user.js/issues/237
+user_pref("security.ssl.require_safe_negotiation",		true);
 
 // PREF: Disable automatic reporting of TLS connection errors
 // https://support.mozilla.org/en-US/kb/certificate-pinning-reports
@@ -1278,6 +1290,9 @@ user_pref("security.ssl3.ecdh_rsa_aes_128_sha",			false);
 user_pref("security.ssl3.ecdh_ecdsa_aes_128_sha",		false);
 user_pref("security.ssl3.dhe_rsa_camellia_128_sha",		false);
 user_pref("security.ssl3.dhe_rsa_aes_128_sha",			false);
+user_pref("security.ssl3.ecdhe_ecdsa_aes_128_gcm_sha256",	false); // 0xc02b TLSv1.2
+user_pref("security.ssl3.ecdhe_rsa_aes_128_gcm_sha256",		false); // 0xc02f TLSv1.2
+user_pref("security.tls13.aes_128_gcm_sha256",			false); // 0x1301 TLSv1.3
 
 // PREF: Disable RC4
 // https://developer.mozilla.org/en-US/Firefox/Releases/38#Security
@@ -1304,6 +1319,7 @@ user_pref("security.ssl3.ecdhe_ecdsa_des_ede3_sha",		false);
 user_pref("security.ssl3.ecdhe_rsa_des_ede3_sha",		false);
 user_pref("security.ssl3.rsa_des_ede3_sha",			false);
 user_pref("security.ssl3.rsa_fips_des_ede3_sha",		false);
+user_pref("security.ssl3.deprecated.rsa_des_ede3_sha",		false);
 
 // PREF: Disable ciphers with ECDH (non-ephemeral)
 user_pref("security.ssl3.ecdh_rsa_aes_256_sha",			false);
@@ -1312,10 +1328,15 @@ user_pref("security.ssl3.ecdh_ecdsa_aes_256_sha",		false);
 // PREF: Disable 256 bits ciphers without PFS
 user_pref("security.ssl3.rsa_camellia_256_sha",			false);
 
-// PREF: Enable GCM ciphers (TLSv1.2 only)
+// PREF: Enable GCM ciphers (TLSv1.2 only) (disabled)
 // https://en.wikipedia.org/wiki/Galois/Counter_Mode
-user_pref("security.ssl3.ecdhe_ecdsa_aes_128_gcm_sha256",	true); // 0xc02b
-user_pref("security.ssl3.ecdhe_rsa_aes_128_gcm_sha256",		true); // 0xc02f
+//user_pref("security.ssl3.ecdhe_ecdsa_aes_128_gcm_sha256",	true); // 0xc02b
+//user_pref("security.ssl3.ecdhe_rsa_aes_128_gcm_sha256",		true); // 0xc02f
+
+// PREF: Disable non-ECDHE RSA ciphers
+// https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
+user_pref("security.ssl3.rsa_aes_128_gcm_sha256",		false);
+user_pref("security.ssl3.rsa_aes_256_gcm_sha384",		false);
 
 // PREF: Enable ChaCha20 and Poly1305 (Firefox >= 47)
 // https://www.mozilla.org/en-US/firefox/47.0/releasenotes/
@@ -1337,11 +1358,11 @@ user_pref("security.ssl3.dhe_dss_aes_256_sha",			false);
 user_pref("security.ssl3.dhe_dss_camellia_128_sha",		false);
 user_pref("security.ssl3.dhe_dss_camellia_256_sha",		false);
 
-// PREF: Ciphers with CBC & SHA-1 (disabled)
-//user_pref("security.ssl3.rsa_aes_256_sha",			false); // 0x35
-//user_pref("security.ssl3.rsa_aes_128_sha",			false); // 0x2f
-//user_pref("security.ssl3.ecdhe_rsa_aes_256_sha",		false); // 0xc014
-//user_pref("security.ssl3.ecdhe_ecdsa_aes_256_sha",		false); // 0xc00a
+// PREF: Disable ciphers with CBC & SHA-1
+user_pref("security.ssl3.rsa_aes_256_sha",			false); // 0x35
+user_pref("security.ssl3.rsa_aes_128_sha",			false); // 0x2f
+user_pref("security.ssl3.ecdhe_rsa_aes_256_sha",		false); // 0xc014
+user_pref("security.ssl3.ecdhe_ecdsa_aes_256_sha",		false); // 0xc00a
 
 // PREF: Enable X25519Kyber768Draft00 (post-quantum key exchange) [FF Nightly 2024-01-18+]
 // https://datatracker.ietf.org/doc/draft-tls-westerbaan-xyber768d00/

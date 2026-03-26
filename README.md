@@ -250,10 +250,11 @@ Harden preferences related to external plugins
 ### Firefox (anti-)features / components
 
 Disable Firefox integrated metrics/reporting/experiments, disable potentially insecure/invasive/[undesirable](https://en.wikipedia.org/wiki/Feature_creep) features
-* Disable Extension recommendations (Firefox >= 65) [ [1](https://support.mozilla.org/en-US/kb/extension-recommendations) ]
+* Disable Extension recommendations (Firefox >= 65) [ [1](https://support.mozilla.org/en-US/kb/extension-recommendations) [2](https://brokkr.net/2025/08/10/firefox-aboutconfig-tricks-3-dont-recommend-extensions/) ]
 * Disable WebIDE [ [1](https://trac.torproject.org/projects/tor/ticket/16222) [2](https://developer.mozilla.org/docs/Tools/WebIDE) ]
 * Disable remote debugging [ [1](https://developer.mozilla.org/docs/Tools/Remote_Debugging/Debugging_Firefox_Desktop) [2](https://developer.mozilla.org/docs/Tools/Tools_Toolbox#Advanced_settings) ]
 * Disable Mozilla telemetry/experiments [ [1](https://wiki.mozilla.org/Platform/Features/Telemetry) [2](https://wiki.mozilla.org/Privacy/Reviews/Telemetry) [3](https://wiki.mozilla.org/Telemetry) [4](https://www.mozilla.org/en-US/legal/privacy/firefox.html#telemetry) [5](https://support.mozilla.org/t5/Firefox-crashes/Mozilla-Crash-Reporter/ta-p/1715) [6](https://wiki.mozilla.org/Security/Reviews/Firefox6/ReviewNotes/telemetry) [7](https://gecko.readthedocs.io/en/latest/browser/experiments/experiments/manifest.html) [8](https://wiki.mozilla.org/Telemetry/Experiments) [9](https://support.mozilla.org/en-US/questions/1197144) [10](https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/telemetry/internals/preferences.html#id1) ]
+* Disable daily usage ping [ [1](https://support.mozilla.org/1/firefox/140.2.0/Linux/en-US/usage-ping-settings) ]
 * Disallow Necko to do A/B testing [ [1](https://trac.torproject.org/projects/tor/ticket/13170) ]
 * Disable sending Firefox crash reports to Mozilla servers [ [1](https://wiki.mozilla.org/Breakpad) [2](https://kb.mozillazine.org/Breakpad) [3](https://dxr.mozilla.org/mozilla-central/source/toolkit/crashreporter) [4](https://bugzilla.mozilla.org/show_bug.cgi?id=411490) ]
 * Disable sending reports of tab crashes to Mozilla (about:tabcrashed), don't nag user about unsent crash reports [ [1](https://hg.mozilla.org/mozilla-central/file/tip/browser/app/profile/firefox.js) ]
@@ -275,6 +276,7 @@ Disable Firefox integrated metrics/reporting/experiments, disable potentially in
 * Disable Pocket [ [1](https://support.mozilla.org/en-US/kb/save-web-pages-later-pocket-firefox) [2](https://github.com/pyllyukko/user.js/issues/143) ]
 * Disable "Recommended by Pocket" in Firefox Quantum
 * Enable Global Privacy Control (GPC) (Firefox >= 120) [ [1](https://support.mozilla.org/1/firefox/126.0/Linux/en-US/global-privacy-control) [2](https://developer.mozilla.org/docs/Web/HTTP/Headers/Sec-GPC) [3](https://globalprivacycontrol.org/) ]
+* Hide weather on New Tab
 
 ### Automatic connections
 
@@ -292,7 +294,7 @@ Prevents the browser from [auto-connecting](https://support.mozilla.org/en-US/kb
 * Disable speculative pre-connections [ [1](https://support.mozilla.org/en-US/kb/how-stop-firefox-making-automatic-connections#w_speculative-pre-connections) [2](https://bugzilla.mozilla.org/show_bug.cgi?id=814169) ]
 * Disable downloading homepage snippets/messages from Mozilla [ [1](https://support.mozilla.org/en-US/kb/how-stop-firefox-making-automatic-connections#w_mozilla-content) [2](https://wiki.mozilla.org/Firefox/Projects/Firefox_Start/Snippet_Service) ]
 * Never check updates for search engines [ [1](https://support.mozilla.org/en-US/kb/how-stop-firefox-making-automatic-connections#w_auto-update-checking) ]
-* Disable automatic captive portal detection (Firefox >= 52.0) [ [1](https://support.mozilla.org/en-US/questions/1157121) ]
+* Disable automatic captive portal detection (Firefox >= 52.0) [ [1](https://support.mozilla.org/en-US/questions/1157121) [2](https://support.mozilla.org/en-US/kb/how-stop-firefox-making-automatic-connections#w_network-detection) ]
 * Disable (parts of?) "TopSites"
 
 ### HTTP
@@ -373,6 +375,7 @@ Improve visibility of security-related elements, mitigate shoulder-surfing
 * Enforce Public Key Pinning [ [1](https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning) [2](https://wiki.mozilla.org/SecurityEngineering/Public_Key_Pinning) ]
 * Disallow SHA-1 [ [1](https://bugzilla.mozilla.org/show_bug.cgi?id=1302140) [2](https://shattered.io/) ]
 * Warn the user when server doesn't support RFC 5746 ("safe" renegotiation) [ [1](https://wiki.mozilla.org/Security:Renegotiation#security.ssl.treat_unsafe_negotiation_as_broken) [2](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2009-3555) ]
+* Disallow connection to servers not supporting safe renegotiation [ [1](https://wiki.mozilla.org/Security:Renegotiation#security.ssl.require_safe_negotiation) [2](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2009-3555) [3](https://github.com/pyllyukko/user.js/issues/237) ]
 * Disable automatic reporting of TLS connection errors [ [1](https://support.mozilla.org/en-US/kb/certificate-pinning-reports) ]
 * Pre-populate the current URL but do not pre-fetch the certificate in the "Add Security Exception" dialog [ [1](https://kb.mozillazine.org/Browser.ssl_override_behavior) [2](https://github.com/pyllyukko/user.js/issues/210) ]
 * Encrypted SNI (when TRR is enabled) [ [1](https://www.cloudflare.com/ssl/encrypted-sni/) [2](https://wiki.mozilla.org/Trusted_Recursive_Resolver#ESNI) [3](https://en.wikipedia.org/wiki/Server_Name_Indication#Security_implications_(ESNI)) ]
@@ -388,10 +391,11 @@ This section tweaks the cipher suites used by Firefox. The idea is to support on
 * Disable 3DES (effective key size is < 128) [ [1](https://en.wikipedia.org/wiki/3des#Security) [2](http://en.citizendium.org/wiki/Meet-in-the-middle_attack) [3](http://www-archive.mozilla.org/projects/security/pki/nss/ssl/fips-ssl-ciphersuites.html) ]
 * Disable ciphers with ECDH (non-ephemeral)
 * Disable 256 bits ciphers without PFS
-* Enable GCM ciphers (TLSv1.2 only) [ [1](https://en.wikipedia.org/wiki/Galois/Counter_Mode) ]
+* Disable non-ECDHE RSA ciphers [ [1](https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites) ]
 * Enable ChaCha20 and Poly1305 (Firefox >= 47) [ [1](https://www.mozilla.org/en-US/firefox/47.0/releasenotes/) [2](https://tools.ietf.org/html/rfc7905) [3](https://bugzilla.mozilla.org/show_bug.cgi?id=917571) [4](https://bugzilla.mozilla.org/show_bug.cgi?id=1247860) [5](https://cr.yp.to/chacha.html) ]
 * Disable ciphers susceptible to the logjam attack [ [1](https://weakdh.org/) ]
 * Disable ciphers with DSA (max 1024 bits)
+* Disable ciphers with CBC & SHA-1
 * Enable X25519Kyber768Draft00 (post-quantum key exchange) [FF Nightly 2024-01-18+] [ [1](https://datatracker.ietf.org/doc/draft-tls-westerbaan-xyber768d00/) [2](https://twitter.com/bwesterb/status/1748017372764475519) [3](https://pq.cloudflareresearch.com/) ]
 <!-- END SECTION -->
 
